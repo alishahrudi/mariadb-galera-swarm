@@ -15,6 +15,10 @@ services:
     command: seed
     volumes:
       - mysql-data:/var/lib/mysql
+    deploy:
+      placement:
+        constraints:
+          - node.hostname  == node4-01
     secrets:
       - xtrabackup_password
       - mysql_password
@@ -32,6 +36,10 @@ services:
       - mysql-data:/var/lib/mysql
     deploy:
       replicas: 0
+      placement:
+        max_replicas_per_node: 1
+        constraints:
+          - node.labels.pxc  == true
     secrets:
       - xtrabackup_password
 
